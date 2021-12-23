@@ -14,6 +14,7 @@ HTTP код – 200.
 
 4 Задание.
 ![image](https://user-images.githubusercontent.com/91490218/147271516-37cbf221-c675-4372-b778-4578b5964542.png)
+
 AS 34038
 
 5 Задание.
@@ -40,6 +41,7 @@ OriginAS:
 Organization:   Internet Assigned Numbers Authority (IANA)
 RegDate:
 Updated:        2013-08-30
+
 
 6 Задание.
 ![image](https://user-images.githubusercontent.com/91490218/147271821-5e58af84-4ea9-4564-8843-5fadae29be1f.png)
