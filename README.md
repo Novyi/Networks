@@ -1,61 +1,79 @@
-1 Задание.
-![image](https://user-images.githubusercontent.com/91490218/147271340-a39e23f1-dd27-4375-a0bc-7dcf2ebd25df.png)
-Получен HTTP код 301. Означает, что ресурс перемещен.
+1 Задание.Проверьте список доступных сетевых интерфейсов на вашем компьютере. Какие команды есть для этого в Linux и в Windows?
 
-2 Задание.
-![image](https://user-images.githubusercontent.com/91490218/147271414-e87b1ab7-201b-4ebe-8cb9-58999c3d61a6.png)
-HTTP код – 200.
-Время загрузки страницы – 535мс.
-Дольше всего обрабатывался beacon.js – 265мс.
-![image](https://user-images.githubusercontent.com/91490218/147271449-6a1fab4a-747b-4ae3-9920-9bbaaafa7525.png)
+![image](https://user-images.githubusercontent.com/91490218/148365683-f568a6a8-4e28-41ac-9fdd-f6f1a9c0e874.png)
 
-3 Задание.
-![image](https://user-images.githubusercontent.com/91490218/147271485-bd652d2c-9772-466e-a3a5-d9c54bcfd7bc.png)
+2 Задание. Какой протокол используется для распознавания соседа по сетевому интерфейсу? Какой пакет и команды есть в Linux для этого?
 
-4 Задание.
-![image](https://user-images.githubusercontent.com/91490218/147271516-37cbf221-c675-4372-b778-4578b5964542.png)
+![image](https://user-images.githubusercontent.com/91490218/148365742-918e4072-b152-4351-b926-1d7b47196b95.png)
 
-AS 34038
+3 Задание.Какая технология используется для разделения L2 коммутатора на несколько виртуальных сетей? Какой пакет и команды есть в Linux для этого? Приведите пример конфига.
 
-5 Задание.
-Почему-то один IP показал и все.
-![image](https://user-images.githubusercontent.com/91490218/147271597-b987933c-ba4f-444f-b493-2b5f34c8292b.png)
-vagrant@vagrant:~$ whois 10.0.2.2
-#
-# ARIN WHOIS data and services are subject to the Terms of Use
-# available at: https://www.arin.net/resources/registry/whois/tou/
-#
-# If you see inaccuracies in the results, please report at
-# https://www.arin.net/resources/registry/whois/inaccuracy_reporting/
-#
-# Copyright 1997-2021, American Registry for Internet Numbers, Ltd.
-#
+ОТВЕТ: используется VLAN. 
 
-NetRange:       10.0.0.0 - 10.255.255.255
-CIDR:           10.0.0.0/8
-NetName:        PRIVATE-ADDRESS-ABLK-RFC1918-IANA-RESERVED
-NetHandle:      NET-10-0-0-0-1
-Parent:          ()
-NetType:        IANA Special Use
-OriginAS:
-Organization:   Internet Assigned Numbers Authority (IANA)
-RegDate:
-Updated:        2013-08-30
+Настройки VLAN указываются в файле /etc/network/interfaces.
+Для того чтобы информация о созданных VLAN'ах сохранилась после перезагрузки, необходимо добавить её в файл /etc/network/interfaces:
 
+auto eth0.1400
+iface eth0.1400 inet static
+        address 192.168.1.1
+        netmask 255.255.255.0
+        vlan_raw_device eth0
 
-6 Задание.
-![image](https://user-images.githubusercontent.com/91490218/147271821-5e58af84-4ea9-4564-8843-5fadae29be1f.png)
-На участке 209.85.255.136 небольшая потеря.
+Вручную настройка VLAN выполняется с помощью программы vconfig.
 
-7 Задание.
-Какие DNS сервера отвечают за доменное имя dns.google?
-ns1.zdns.google.
-ns4.zdns.google.
-ns2.zdns.google.
-ns3.zdns.google.
-Какие A записи?
-dns.google.             900     IN      A       8.8.8.8
-dns.google.             900     IN      A       8.8.4.4
+4 Задание.Какие типы агрегации интерфейсов есть в Linux? Какие опции есть для балансировки нагрузки? Приведите пример конфига.
 
-Задание 8.
-![image](https://user-images.githubusercontent.com/91490218/147272011-11575999-1a49-4890-883e-f81981e2fc1e.png)
+ОТВЕТ:
+
+Типы агрегации: 1. Статический. 2. Динамический – LACP.
+
+В популярных дистрибутивах Linux используется модуль bonding и утилита пользовательского уровня ifenslave для управления им. 
+В зависимости от модели коммутатора, могут поддерживаться такие методы балансировки:
+по MAC-адресу отправителя или MAC-адресу получателя или учитывая оба адреса
+по IP-адресу отправителя или IP-адресу получателя или учитывая оба адреса
+по номеру порта отправителя или номеру порта получателя или учитывая оба порта
+
+ПРИМЕР конфига: 
+
+sw1(config)# interface range f0/11-14
+sw1(config-if-range)# shutdown
+sw1(config-if-range)# channel-group 3 mode on
+Creating a port-channel interface Port-channel 3
+
+5 Задание.Сколько IP адресов в сети с маской /29 ? Сколько /29 подсетей можно получить из сети с маской /24. Приведите несколько примеров /29 подсетей внутри сети 10.10.10.0/24.
+
+ОТВЕТ:
+
+Количество доступных адресов - 8, Количество рабочих адресов для хостов-6.
+
+Всего подсетей в сети с маской /24: Subnets:   32 Hosts:  192
+
+Примеры подсетей: 
+
+Network:   10.10.10.8/29, Network:   10.10.10.24/29,   Network:   10.10.10.40/29, Network:   10.10.10.248/29
+
+6 Задание. Задача: вас попросили организовать стык между 2-мя организациями. Диапазоны 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 уже заняты. Из какой подсети допустимо взять частные IP адреса? Маску выберите из расчета максимум 40-50 хостов внутри подсети.
+
+ОТВЕТ:
+
+Можно использовать подсеть 100.64.0.0 с маской /26. Получится 62 хоста.
+
+7 Задание. Как проверить ARP таблицу в Linux, Windows? Как очистить ARP кеш полностью? Как из ARP таблицы удалить только один нужный IP?
+
+ОТВЕТ:
+Посмотреть arp таблицу в Linux
+
+![image](https://user-images.githubusercontent.com/91490218/148366289-499de37f-791f-4bd3-8c3c-d6025d3ae5aa.png)
+
+Очистить ARP:  
+
+sudo ip neigh flush al
+Удалить один IP: 
+
+sudo ip neigh del (IP)
+
+Посмотреть arp таблицу в Windows:
+
+ arp –a 
+arp -d  - полная очистка таблицы ARP.
+
